@@ -1,11 +1,39 @@
 class Api::ProductsController < ApplicationController
-  def product
-    @product = Product.first
-    render 'product.json.jb'
+  def index
+    @products = Product.all
+    render 'index.json.jb'
   end
 
-  def all_products
-    @products = Product.all
-    render 'all_products.json.jb'
+  def show
+    @product = Product.all.find_by(id: params['id'])
+    render 'show.json.jb'
+  end
+
+  def update
+    @product = Product.find_by(id: params[:id])
+    @product.update(
+      name: params[:name] || @product.name,
+      price: params[:price] || @product.price,
+      image_url: params[:image_url] || @product.image_url,
+      description: params[:description] || @product.description
+    )
+    render 'show.json.jb'
+  end
+
+  def create
+    @product = Product.new(
+      name: params[:name],
+      price: params[:price],
+      image_url: params[:image_url],
+      description: params[:description]
+    )
+    @product.save
+    render 'show.json.jb'
+  end
+
+  def destroy
+    product = Product.find_by(id: params[:id])
+    product.destroy
+    render 'show.json.jb'
   end
 end
