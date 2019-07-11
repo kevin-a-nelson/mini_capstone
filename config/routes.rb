@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+  Rails.application.routes.draw do
   # EXAMPLE HTML ROUTE
   # get "/photos" => "photos#index"
 
@@ -11,5 +11,8 @@ Rails.application.routes.draw do
     delete '/products/:id' => 'products#destroy'
 
     post '/users' => 'users#create'
+    get '/users/:id' => 'users#show'
+
+    post '/sessions' => 'sessions#create'
   end
 end
