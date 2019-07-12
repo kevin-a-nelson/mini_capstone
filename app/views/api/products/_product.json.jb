@@ -1,7 +1,7 @@
 {
   id: product.id,
   supplier_name: product.supplier.name,
-  images_url: product.image.url,
+  # images_url: product.image.url,
   name: product.name,
   price: product.price,
   description: product.description,
