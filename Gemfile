@@ -21,6 +21,10 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
 
+group :development, :test do
+  gem 'ffaker'
+end
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

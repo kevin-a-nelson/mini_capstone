@@ -1,23 +1,33 @@
 class Api::ProductsController < ApplicationController
+  before_action :authenticate_admin, only: [:create, :update]
+
   def index
+    # if params[:search]
+    #   @products = Product.where('name LIKE ?', "%#{params[:search]}%")
+    # else
+    #   @products = Product.all
+    # end
 
-    if params[:search]
-      @products = Product.where('name LIKE ?', "%#{params[:search]}%")
-    else
-      @products = Product.all
+    # if params[:discount]
+    #   @products = @products.where("price > ?", 10)
+    # end
+
+    # if params[:sort] && params[:sort_order]
+    #   @products = @products.order(params[:sort] => params[:sort_order])
+    # else
+    #   @products = @products.order(:id => :asc)
+    # end
+    #
+    #
+    @products = Product.all
+
+    if params[:category]
+      category = Category.find_by(name: params[:category])
+      @product = category.products
     end
 
-    if params[:discount]
-      @products = @products.where("price > ?", 10)
-    end
-
-    if params[:sort] && params[:sort_order]
-      @products = @products.order(params[:sort] => params[:sort_order])
-    else
-      @products = @products.order(:id => :asc)
-    end
-
-    render 'index.json.jb'
+    render 'product.html.erb'
+    # render 'index.json.jb'
   end
 
   def show
@@ -30,7 +40,6 @@ class Api::ProductsController < ApplicationController
     if @product.update(
       name: params[:name] || @product.name,
       price: params[:price] || @product.price,
-      image_url: params[:image_url] || @product.image_url,
       description: params[:description] || @product.description
     )
       render 'show.json.jb'
@@ -43,8 +52,8 @@ class Api::ProductsController < ApplicationController
     @product = Product.new(
       name: params[:name],
       price: params[:price],
-      image_url: params[:image_url],
-      description: params[:description]
+      description: params[:description],
+      supplier_id: params[:supplier_id]
     )
     if @product.save
       render 'show.json.jb'
@@ -58,4 +67,8 @@ class Api::ProductsController < ApplicationController
     product.destroy
     render 'show.json.jb'
   end
+
+  # def new
+  #   render 'new.html.erb'
+  # end
 end

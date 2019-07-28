@@ -1,0 +1,16 @@
+<div>
+  <p>name: <%= @product.name %></p>
+  <p>price: <%= @product.price %></p>
+  <p>description: <%= @product.description %></p>
+  <a href="/api/products/<%= @product.id %>">More Info</a>
+</div>
+
+<div>
+  <a href="/products">Back</a>
+</div>
+<a href="/products/<%= @product.id%>">delete this product></a>
+
+<form action="/products/<%= @product.id %>" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" value="delete this product">
+</form>

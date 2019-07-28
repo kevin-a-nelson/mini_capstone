@@ -1,46 +1,32 @@
 class Api::OrdersController < ApplicationController
+  before_action :authenticate_user
+
   def index
-    if current_user
-      @user_orders = current_user.orders
-      render json: {user_orders: @user_orders }
-    else
-      render json: { message: 'please log in' }
-    end
+    @user_orders = current_user.orders
+    render 'index.json.jb'
   end
 
   def show
-    if current_user
-      user_orders = current_user.orders
-      @order = user_orders.find_by(id: params['id'])
-      render json: { message: @order }
-    else
-      render json: { message: 'please log in'}
-    end
+    user_orders = current_user.orders
+    @order = user_orders.find_by(id: params['id'])
+    render json: { message: @order }
   end
 
   def create
-    if current_user
-      product = Product.find_by(name: params['product_name'])
-      quanitity = params['quanitity'].to_i
-      price = product.price.to_i
-      total = price * quanitity
-      tax = product.tax * quanitity
+    carted_products = CartedProduct.all.where(status: 'carted')
+    @carted_product = carted_products.first
 
-      @order = Order.new(
-        user_id: current_user.id,
-        product_id: product.id,
-        subtotal: price,
-        tax: tax,
-        total: total,
-        quantity: quanitity
-      )
+    # @order = Order.new(
+    #   user_id: user_id,
+    #   subtotal: price,
+    #   tax: tax,
+    #   total: total
+    # )
 
-      @order.save
+    # @order.save
 
-      render json: { order: @order }
-    else
-      render json: { message: 'please log in' }
-    end
+    # render json: { carted_products: 'hello world' }
+    render json: { order: @carted_product }
   end
 
   def destroy
