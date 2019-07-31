@@ -31,4 +31,8 @@ class Product < ApplicationRecord
   def usd
     "$#{price}"
   end
+
+  def image
+      return 'https://sterlingcomputers.com/wp-content/themes/Sterling/images/no-image-found-360x260.png'
+  end
 end

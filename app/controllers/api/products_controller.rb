@@ -26,8 +26,8 @@ class Api::ProductsController < ApplicationController
       @product = category.products
     end
 
-    render 'product.html.erb'
-    # render 'index.json.jb'
+    # render 'product.html.erb'
+    render 'index.json.jb'
   end
 
   def show

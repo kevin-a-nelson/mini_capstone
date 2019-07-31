@@ -10,11 +10,12 @@
 
 100.times do
   product = Product.new(
+    supplier_id: 1,
     price: rand(50),
     name: FFaker::Product.product,
     description: FFaker::HipsterIpsum.paragraph
   )
-  product.save
+  product.save!
 end
 
 # Product.create(
